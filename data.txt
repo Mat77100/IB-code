@@ -1,0 +1,80 @@
+name:  Emily Harper , phone:  (281) 442-8829 , email; emily_h@fastmail.com
+name:    jacob   TURNER,  phone:  503-992-4411, email; jacob.t@GMAIL.com
+
+name:  Ava  carter ,phone:  415-201-8833 , email; avac_22@yahoo.com
+Name:   LUCAS  Johnson, phone: (802)440-2299 ,email; LJohnson44@outlook.com
+name:    mia   reid , phone:  714-202-9901 , email;   miar@icloud.com
+NAME:   ethan   PRICE, phone:(203)882-5510,email;  eprice94@gmail.com
+name:  harper  ross ,phone: 918-229-0022, email; harper_ross12@MAIL.com
+
+name:   oliver BROWN , phone:  307-502-8839 ,email; oliverb@live.com
+nAme:   isabella  shaw, phone:(917)330-2219 , email; isashaw@PROTONMAIL.COM
+name:    aiden  campbell , phone:  606-400-8850, email;  aidenc@icloud.com
+
+Name:   GRACE  WALKER, phone: (919) 701-2290,email; gwalker@outlook.com
+name:    James   Morris , phone:  303  442  9009,  email; jmorris@aol.com
+Name:   sofia   long, phone: (412)-991-5400 ,email; sofl@icloud.com
+nAME:   liam  bell, phone:  808-700-9990 , email; liam.bell22@gmail.com
+name:   ella   miller , phone:  318-922-3310 ,  email;  ELLA.M@FASTMAIL.com
+
+name:  jackson    hill ,  phone:  619  881  5522 , email;  jhill22@outlook.com
+Name:  CHLOE  REED, phone:(541) 922-5501,  email; chloer88@yahoo.com
+name:    michael davis, phone:  980-554-0071 , email;  miked@icloud.com
+NAME:  evelyn adams ,phone:  202-391-6002, email; evelyna@GMAIL.COM
+
+name:   henry   cook , phone:(256) 401-8820 , email; hcook22@FASTMAIL.com
+nAmE:  scarlett   fisher ,phone:  808  202  9912 , email; scarlett@icloud.com
+name:  owen   torres ,  phone:  470-881-2209 , email;  owentorres@YAHOO.COM
+
+NAME:   avery    JAMES, phone:  312-229-7722 ,email; ajames44@gmail.com
+Name:   lucy   cooper , phone:(207) 901 4400 ,email; lcooper@outlook.com
+name:   elijah foster ,  phone:  612  500  9910 ,email; efoster@icloud.com
+nAme:  lily  powell ,phone:  505-422-4409 , email; lilyp@FASTMAIL.com
+
+name:    sebastian   evans , phone: (478) 990-2001, email; sevans44@icloud.com
+NAME:   victoria   mitchell , phone:  337  921  9920,  email;  vmitchell22@aol.com
+Name:   leo  nelson , phone:  817  441  2901, email; leonelson@protonmail.com
+name:   aria  ward,  phone:  (419)-422-0991 , email;  ariaward@icloud.com
+Name:  JACK  ROBERTS ,  phone: (615) 900-3322 ,email;  jroberts88@YAHOO.com
+
+name:   claire  bailey , phone:  (912) 700-8821 , email; cbailey@gmail.com
+nAme:   samuel  gray , phone:  434-220-9091 ,email;  samgray@FASTMAIL.COM
+name:   zoe   peterson , phone:(406)-991-0031 ,email; zpeterson@outlook.com
+Name:   hudson  hughes , phone:  775-320-2011, email; hhughes@icloud.com
+NAME:  audrey   ross , phone: (970) 554-2032 ,email; audreyross@GMAIL.com
+
+name:   jack   thompson, phone:  330  882  1190 ,email; jackt@protonmail.com
+name:  stella  richardson ,phone:(479)  201  4412 , email; srichardson@icloud.com
+nAmE:   nathan  jenkins , phone:  228  920  8800 ,email; nathan.jenks@outlook.com
+Name:   lila  sanders ,phone:  (208)-442-7722 , email;  lila@icloud.com
+NAME:  jonah   simmons , phone:  931  220  4419 , email;  jsimmons@GMAIL.COM
+
+name:   hazel   phillips , phone:  425  210  9922 ,email; hazel.p@fastmail.com
+Name:   carter  brooks , phone:(701)  820  3300 , email; carterb@icloud.com
+name:   elena  ward , phone:  513-922-9911 ,email;  elenaw@aol.com
+NAME:   isaac   howard, phone:  (308) 700 2291 ,email; ihoward44@GMAIL.com
+name:  zoey   bryant , phone:(251) 401  7702 ,email; zbryant@fastmail.com
+
+name:  leo  stewart, phone:  (918)-402-9920 ,email;  leos@icloud.com
+Name:   sadie   harris , phone: (714) 920  8829 ,email;  sharris@gmail.com
+NAME:   lucas   barnes , phone:  972  882  2291 ,email; lucasb@outlook.com
+name:   mila  bell ,phone:  603-990-5541 , email;  milab@icloud.com
+Name:  ELLIE   CLARK , phone:  (217) 701  5500 ,email; eclark@YAHOO.com
+
+name:   levi   ramirez ,phone: (347)  992  4410 ,email; levir@icloud.com
+nAmE:   maya  cooper , phone:  682  500  5521 ,email; mayac@outlook.com
+name:  nora   turner, phone: (540) 222  0911 ,email; noraturner@gmail.com
+NAME:  hunter  walker , phone:(936)-772-5500 ,email; hwalker@icloud.com
+name:  aria   mitchell , phone:  757  990  4400 , email;  ariami@FASTMAIL.COM
+
+Name:  AARON  GONZALEZ ,phone:  (336)  901  9910 , email;  agonzalez@gmail.com
+nAmE:   paisley   adams , phone:  478  882  2230 ,email;  padams@icloud.com
+name:   isaiah   parker ,phone:(970) 992  3300 ,email;  iparker@YAHOO.com
+NAME:   leah   martin , phone:  505  770  9922 ,email;  lmartin@outlook.com
+Name:   ezra  thomas , phone:  (906)  552  9911 ,email; ezrathomas@icloud.com
+
+name:   aria   morgan ,phone:  815  992  4409 ,email; ariamorgan@fastmail.com
+nAme:   joseph   clark , phone:(912)-700-4412 , email; jclark@icloud.com
+Name:   sofia   adams , phone:  406  221  9910 ,email;  sofiaadams@gmail.com
+NAME:   alexander   lopez , phone:  678  881  9900 ,email; alexl@YAHOO.com
+name:   layla  perry , phone: (207)  552  8830 ,email; laylap@fastmail.com
