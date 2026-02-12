@@ -8,10 +8,10 @@ class player:
         self.fame = fame
         self.costF = costF
         #self.locations = []
-    def GetMoney(self, Amount):
-        self.money =+ Amount
     def GetBalance(self):
         return self.money
+    def EditBalance(self,Amount):
+        self.money += Amount
     def GetFame(self):
         return self.fame
     def GetCostF(self):
@@ -28,18 +28,15 @@ class player:
         T1 = self.money
         time.sleep(1)
         T2 = self.money
-        return T2-VT
-    #def GetLocationArr(self):
-       # return self.locations
-    
-    #Being able to open multiple washes wont work, too many things going on for the program.
-    #Make so you can open a new type of wash, as progression kind off - unlocking new washes every time. this allows for new ones to be added easily using the WashStation Class
+        return T2-T1
 
 p1 = player(0,1,50)
 
 class WashStation:
-    def __init__(self,speed,QueueSlots,FoQ, BoQ):
+    def __init__(self,speed,costSpeed,costQueue,QueueSlots,FoQ, BoQ):
         self.speed = speed
+        self.costSpeed = costSpeed
+        self.costQueue = costQueue
         self.QueueSlots = QueueSlots
         self.FoQ = FoQ
         self.BoQ = BoQ
@@ -48,13 +45,10 @@ class WashStation:
         return self.Q
     def GetSpeed(self):
         return self.speed
-    #def AddToQ(self):
-        #LOOK AT UML NOW BEFORE ADDING THIS
-        '''if not(self.BoQ >= len(self.Q)-1):
-            self.BoQ += 1
-            self.Q[self.BoQ] = "car"
-            print("\033[36m A car has arrived!!\033[0m", flush=True)
-        '''#Idea, remove AddToQ, finish the rest of the methods, then when making the subclasses add the appropriate AddToQ method (Car, boat, plane, truck)
+    def GetCostQueue(self):
+        return self.costQueue
+    def GetCostSpeed(self):
+        return self.costSpeed
     def WashFoQ(self):
         if self.Q[0] != "Empty":
             Selected = self.Q[0]
@@ -62,15 +56,28 @@ class WashStation:
             while dirt != 0:
                 dirt -= 1
                 time.sleep(self.speed)
-            #shuffle everything forward
-            #Pay player
-            #Notify of compleation
-            
+            print(f"Vehicle cleaned! it paid £{Selected.GetPay()}")
+            p1.EditBalance(Selected.GetPay())
+            for i in range(0, self.QueueSlots-1):
+                self.Q[i] = self.Q[i+1]
     def UpgradeQ(self):
-        
+        if p1.GetBalance()< self.costQueue:
+            print("\033[31m**Upgrade Failed** ---> Balance too low\033[0m")
+        else:
+            self.QueueSlots +=1
+            self.Q = ["Empty"]*self.QueueSlots
+            p1.EditBalance(-self.costQueue)
+            self.costQueue = self.costQueue * 2
+            print(f"Upgrade compleate! New queue has {self.QueueSlots} queue slots")
     def UpgradeSpeed(self):
-        #add the money check and notification
-        self.speed = round(self.speed * 0.75,3)
+        if p1.GetBalance() < self.costSpeed:
+            print("\033[31m**Upgrade Failed** ---> Balance too low\033[0m")
+        else:
+            self.speed = round(self.speed * 0.75,3)
+            p1.EditBalance(-self.costSpeed)
+            self.costSpeed = self.costSpeed + (self.costSpeed * 0.5)
+            print(f"Upgrade compleate! Speed at {self.speed}")
+            
 
         
 class Vehicles:
@@ -110,7 +117,6 @@ class Cars(Vehicles):
 
 price = 10
 
-costS = 50
 costW = 100
 costP = 100
 
