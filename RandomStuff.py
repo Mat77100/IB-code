@@ -1,26 +1,96 @@
-import random
+import random as rng
 import tkinter as tk
 
+global A
 A = []
-for i in range(0,10000):
-    A.append(random.randint(1,100))
+for i in range(1,101):
+    A.append(i)
+
+
+#randomiser
+def randomiser(A):
+    for i in range(0,len(A)-1):
+        r1 = rng.randint(0,len(A)-1)
+        r2 = rng.randint(0,len(A)-1)
+        A[r1], A[r2] = A[r2], A[r1]
+    return A
+
+
+def makeRandomisedArr(Scale):
+    A = []
+    for i in range (1,Scale+1):
+        A.append(i)
+    A = randomiser(A)
+    return A
+
+
+#quick sort
+def QuickSort(A):
+    if len(A) <= 1:
+        return A
+    pivot = A[0]
+    rest = A[1:]
+
+    larger = []
+    smaller = []
+
+    for i in range (len(rest)):
+        if rest[i] >= pivot:
+            larger.append(rest[i])
+        else:
+            smaller.append(rest[i])
+    #print(rest)
+    #print(smaller)
+    #print(larger)
+    sorted_smaller = QuickSort(smaller)
+    sorted_larger = QuickSort(larger)
+    return sorted_smaller + [pivot] + sorted_larger
+
+#print("sorted array: ",QuickSort(A))
+
+#selection sort
+def SelectionSort(A):
+    for i in range(len(A)):
+        min_idx = i
+        for j in range(i+1, len(A)):
+            if A[min_idx] > A[j]:
+                min_idx = j
+        if min_idx!=i:
+            A[i], A[min_idx] = A[min_idx],A[i]
+    return A
+
+def BubbleSort(A):
+    for j in range(len(A)-1):
+        for i in range(len(A)-j-1):
+            if A[i] > A[i+1]:
+                A[i],A[i+1] = A[i+1],A[i]
+    return A
+
 print(A)
 
-results = [0]*100
-print (results)
-for j in range(0,100):
-    total = 0
-    for i in range(0,len(A)):
-        if A[i] == j:
-            total +=1
-    results[j] = total
-print("")
-results[0] = "amount of numbers equivelent to the index:"
-print("Amount of each number genarated by random (1 to 100):")
-print(results)
+def randFun():
+    global A
+    global Canvas
+    A = randomiser(A)
+    Canvas.destroy()
+    Canvas = tk.Canvas(main,width=1200,height=600)
+    Canvas.pack()
+    distance = 19
+    for i in range(0,100):
+        Canvas.create_line(i+distance,999,i+distance,A[i],fill="blue",width=20)
+        distance += 19
+
+for i in range(0,100):
+    A[i]=A[i]*10
 
 main = tk.Tk()
+main.geometry("1200x600")
 tk.Button(main,text="QUIT",command=main.destroy).pack()
-for i in range(1,100):
-    tk.Label(main,text=i,background="blue",width=results[i],anchor="w",height=1,fg="red",justify="left",font=1).pack()
+Canvas = tk.Canvas(main,width=1200,height=600)
+tk.Button(main,text="Randomise!",command=randFun).pack()
+Canvas.pack()
+distance = 19
+for i in range(0,100):
+    Canvas.create_line(i+distance,999,i+distance,A[i],fill="blue",width=20)
+    distance += 19
 main.mainloop()
