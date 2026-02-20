@@ -1,5 +1,6 @@
 import random as rng
 import tkinter as tk
+import time
 
 global A
 A = []
@@ -66,31 +67,39 @@ def BubbleSort(A):
                 A[i],A[i+1] = A[i+1],A[i]
     return A
 
-print(A)
 
 def randFun():
     global A
+    global lineList
     global Canvas
     A = randomiser(A)
-    Canvas.destroy()
-    Canvas = tk.Canvas(main,width=1200,height=600)
-    Canvas.pack()
-    distance = 19
-    for i in range(0,100):
-        Canvas.create_line(i+distance,999,i+distance,A[i],fill="blue",width=20)
-        distance += 19
+    def updatelines(i=0):
+            if  i < len(lineList):
+                x1,y1,x2,y2 = Canvas.coords(lineList[i])
+                Canvas.coords(lineList[i],x1,y1,x2,A[i]*5)  
+                main.after(5,updatelines,i+1)
+    updatelines()
+    
 
-for i in range(0,100):
-    A[i]=A[i]*10
+        
+
+def QuickSortStart():
+    global A
+    A = QuickSort(A)
+
+
 
 main = tk.Tk()
-main.geometry("1200x600")
+main.geometry("1250x700")
 tk.Button(main,text="QUIT",command=main.destroy).pack()
-Canvas = tk.Canvas(main,width=1200,height=600)
+Canvas = tk.Canvas(main,width=1250,height=600)
 tk.Button(main,text="Randomise!",command=randFun).pack()
+tk.Button(main,text="Sort!",command=QuickSortStart).pack()
 Canvas.pack()
 distance = 19
+lineList = []
 for i in range(0,100):
-    Canvas.create_line(i+distance,999,i+distance,A[i],fill="blue",width=20)
-    distance += 19
+    line = Canvas.create_line(i+distance,500,i+distance,A[i]*5,fill="blue",width=10)
+    lineList.append(line)
+    distance += 10
 main.mainloop()
