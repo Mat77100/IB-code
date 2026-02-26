@@ -92,13 +92,13 @@ else:
     print("--------------------------------------------------")
     print("Transmission successfull!")
     print("Final signal strength: ", result,"%")
-    MessageCorruption = (100 - result)/2
+    MessageCorruption = (100 - result)
     Message = list(Message)
     for i in range(len(Message)):
-        if random.randint(1,100) < MessageCorruption:
-            Message[i] = random.choice(string.punctuation) #randomly replaces a the selected letter with random punctuation, saw how to genarate random letters like this (random.choice(string.punctuation)) from https://stackoverflow.com/questions/2823316/generate-a-random-letter-in-python
+        if random.randint(1,100) < MessageCorruption/3:
+            Message[i] = random.choice(string.printable) #randomly replaces a the selected letter with random punctuation, saw how to genarate random letters like this (random.choice(string.punctuation)) from https://stackoverflow.com/questions/2823316/generate-a-random-letter-in-python
     Message = "".join(Message)#this line and line 96 were with help from GPT for how to change a char in a string through the indecies
-    print("Total Message Corruption: ", MessageCorruption,"%")
+    print("Total Signal Loss: ", MessageCorruption,"%")
     print("Final Message:")
     print(Message)
     print("--------------------------------------------------")
