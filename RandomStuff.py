@@ -60,32 +60,54 @@ def SelectionSort(A):
             A[i], A[min_idx] = A[min_idx],A[i]
     return A
 
-def BubbleSort(A):
-    for j in range(len(A)-1):
-        for i in range(len(A)-j-1):
+def BubbleStep():
+    global A,i,j
+    if j < (len(A)-1):
+        if i <(len(A)-j-1):
             if A[i] > A[i+1]:
                 A[i],A[i+1] = A[i+1],A[i]
-    return A
+                updatelines()
+            i += 1
+            main.after(10,BubbleStep)
+        else:
+            i = 0
+            j += 1
+            main.after(10,BubbleStep)
+    else:
+        randbtn.config(state="normal")
+        sortbtn.config(state="normal")
+              
+            
 
 
 def randFun():
-    global A
-    global lineList
-    global Canvas
+    randbtn.config(state="disabled")
+    sortbtn.config(state="disabled")
+    global A,lineList,Canvas,unlock
+    unlock = True
     A = randomiser(A)
-    def updatelines(i=0):
-            if  i < len(lineList):
-                x1,y1,x2,y2 = Canvas.coords(lineList[i])
-                Canvas.coords(lineList[i],x1,y1,x2,A[i]*5)  
-                main.after(5,updatelines,i+1)
     updatelines()
-    
 
-        
 
-def QuickSortStart():
-    global A
-    A = QuickSort(A)
+def updatelines(i=0):
+  global unlock
+  if  i < len(lineList):
+      x1,y1,x2,y2 = Canvas.coords(lineList[i])
+      Canvas.coords(lineList[i],x1,y1,x2,A[i]*5)  
+      main.after(10,updatelines,i+1)
+  else:
+      if unlock:
+          randbtn.config(state="normal")
+          sortbtn.config(state="normal")
+          unlock = False
+
+def StartSort():
+    randbtn.config(state="disabled")
+    sortbtn.config(state="disabled")
+    global i, j
+    i = 0
+    j = 0
+    BubbleStep()
 
 
 
@@ -93,8 +115,10 @@ main = tk.Tk()
 main.geometry("1250x700")
 tk.Button(main,text="QUIT",command=main.destroy).pack()
 Canvas = tk.Canvas(main,width=1250,height=600)
-tk.Button(main,text="Randomise!",command=randFun).pack()
-tk.Button(main,text="Sort!",command=QuickSortStart).pack()
+randbtn = tk.Button(main,text="Randomise!",command=randFun)
+sortbtn = tk.Button(main,text="Sort!",command=StartSort)
+randbtn.pack()
+sortbtn.pack()
 Canvas.pack()
 distance = 19
 lineList = []
