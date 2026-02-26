@@ -78,18 +78,18 @@ def SelectionSort():
         
 
 def BubbleStep():
-    global A,i,j,sorted
+    global A,i,j,sorted,speed
     if j < (len(A)-1) and not sorted:
         if i <(len(A)-j-1):
             if A[i] > A[i+1]:
                 A[i],A[i+1] = A[i+1],A[i]
                 updatelines()
             i += 1
-            main.after(10,BubbleStep)
+            main.after(speed,BubbleStep)
         else:
             i = 0
             j += 1
-            main.after(10,BubbleStep)
+            main.after(speed,BubbleStep)
     else:
         randbtn.config(state="normal")
         sortbtn.config(state="normal")
@@ -108,11 +108,11 @@ def randFun():
 
 
 def updatelines(i=0):
-  global unlock,sorted
+  global unlock,sorted,speed
   if  i < len(lineList):
       x1,y1,x2,y2 = Canvas.coords(lineList[i])
       Canvas.coords(lineList[i],x1,y1,x2,A[i]*5)  
-      main.after(10,updatelines,i+1)
+      main.after(speed,updatelines,i+1)
   else:
       if unlock:
           randbtn.config(state="normal")
@@ -127,24 +127,62 @@ def StartSort():
     i = 0
     j = 0
     min_idx = 0
-    SelectionSort()
+    BubbleStep()
 
 sorted = True
+def SlowSpeed():
+    global speed
+    speed = 30
+    slowbtn.config(bg="grey")
+    mediumbtn.config(bg="white")
+    fastbtn.config(bg="white")
+    zoombtn.config(bg="white")
+def MediumSpeed():
+    global speed
+    speed = 10
+    slowbtn.config(bg="white")
+    mediumbtn.config(bg="grey")
+    fastbtn.config(bg="white")
+    zoombtn.config(bg="white")
+def FastSpeed():
+    global speed
+    speed = 5
+    slowbtn.config(bg="white")
+    mediumbtn.config(bg="white")
+    fastbtn.config(bg="grey")
+    zoombtn.config(bg="white")
+def ZoomSpeed():
+    global speed
+    speed = 1
+    slowbtn.config(bg="white")
+    mediumbtn.config(bg="white")
+    fastbtn.config(bg="white")
+    zoombtn.config(bg="grey")
 
+speed = 10
 
 main = tk.Tk()
-main.geometry("1250x700")
+main.geometry("1400x700")
 tk.Button(main,text="QUIT",command=main.destroy).pack()
 Canvas = tk.Canvas(main,width=1250,height=600)
 randbtn = tk.Button(main,text="Randomise!",command=randFun)
 sortbtn = tk.Button(main,text="Sort!",command=StartSort)
+slowbtn = tk.Button(main,text="Slow",command=SlowSpeed,anchor="e",)
+mediumbtn = tk.Button(main,text="Medium",command=MediumSpeed,anchor="e",bg="grey")
+fastbtn = tk.Button(main,text="Fast",command=FastSpeed,anchor="e")
+zoombtn = tk.Button(main,text="ZOOM!",command=ZoomSpeed,anchor="e")
+slowbtn.pack(side="right")
+mediumbtn.pack(side="right")
+fastbtn.pack(side="right")
+zoombtn.pack(side="right")
+tk.Label(main,text="Speed:",anchor="e").pack(side="right")
 randbtn.pack()
 sortbtn.pack()
 Canvas.pack()
 distance = 19
 lineList = []
 for i in range(0,100):
-    line = Canvas.create_line(i+distance,500,i+distance,A[i]*5,fill="blue",width=10)
+    line = Canvas.create_line(i+distance,501,i+distance,A[i]*5,fill="blue",width=10)
     lineList.append(line)
     distance += 10
 main.mainloop()
