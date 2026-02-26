@@ -61,8 +61,8 @@ def SelectionSort(A):
     return A
 
 def BubbleStep():
-    global A,i,j
-    if j < (len(A)-1):
+    global A,i,j,sorted
+    if j < (len(A)-1) and not sorted:
         if i <(len(A)-j-1):
             if A[i] > A[i+1]:
                 A[i],A[i+1] = A[i+1],A[i]
@@ -76,6 +76,7 @@ def BubbleStep():
     else:
         randbtn.config(state="normal")
         sortbtn.config(state="normal")
+        sorted = True
               
             
 
@@ -90,7 +91,7 @@ def randFun():
 
 
 def updatelines(i=0):
-  global unlock
+  global unlock,sorted
   if  i < len(lineList):
       x1,y1,x2,y2 = Canvas.coords(lineList[i])
       Canvas.coords(lineList[i],x1,y1,x2,A[i]*5)  
@@ -100,6 +101,7 @@ def updatelines(i=0):
           randbtn.config(state="normal")
           sortbtn.config(state="normal")
           unlock = False
+          sorted = False
 
 def StartSort():
     randbtn.config(state="disabled")
@@ -108,7 +110,7 @@ def StartSort():
     i = 0
     j = 0
     BubbleStep()
-
+sorted = True
 
 
 main = tk.Tk()
