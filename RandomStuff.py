@@ -50,15 +50,32 @@ def QuickSort(A):
 #print("sorted array: ",QuickSort(A))
 
 #selection sort
-def SelectionSort(A):
-    for i in range(len(A)):
+def SelectionSort():
+    global j,i,A,sorted, min_idx
+    if sorted:
+        randbtn.config(state="normal")
+        sortbtn.config(state="normal")
+        return
+    if i >= len(A)-1:
+        sorted = True
+        randbtn.config(state="normal")
+        sortbtn.config(state="normal")
+    if j == 1:
         min_idx = i
-        for j in range(i+1, len(A)):
-            if A[min_idx] > A[j]:
-                min_idx = j
-        if min_idx!=i:
-            A[i], A[min_idx] = A[min_idx],A[i]
-    return A
+        j = i+1
+    if j < len(A):
+        if A[j] < A[min_idx]:
+            min_idx = j
+        j+=1
+        main.after(10,SelectionSort)
+    else:
+        if min_idx != i:
+            A[i],A[min_idx] = A[min_idx],A[i]
+            updatelines()
+        i +=1
+        j=1
+        main.after(10,SelectionSort)
+        
 
 def BubbleStep():
     global A,i,j,sorted
@@ -106,10 +123,12 @@ def updatelines(i=0):
 def StartSort():
     randbtn.config(state="disabled")
     sortbtn.config(state="disabled")
-    global i, j
+    global i, j,min_idx
     i = 0
     j = 0
-    BubbleStep()
+    min_idx = 0
+    SelectionSort()
+
 sorted = True
 
 
