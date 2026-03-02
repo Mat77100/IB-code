@@ -50,7 +50,7 @@ def QuickSort(A):
 #print("sorted array: ",QuickSort(A))
 
 def SelectionSort():
-    global sorted,A
+    global sorted,A,speed
     if sorted:
         SSortThread.join()
         randbtn.config(state="normal")
@@ -63,11 +63,12 @@ def SelectionSort():
                 minpos = j #smaller value found (inside loop)
         if minpos != i: #if they dont match (outside loop)
             A[i],A[minpos] = A[minpos],A[i]
-        time.sleep(0.10)
+        time.sleep(speed/1000)
     sorted = True
+    SSortThread.join()
     randbtn.config(state="normal")
     sortbtn.config(state="normal")
-    SSortThread.join()
+    return
     
     
 
@@ -126,12 +127,12 @@ def StartSort():
     updatelinesThread.start()
 
 def UpdateLineslive():
-    global sorted,lineList
+    global sorted,lineList,speed
     while not sorted:
         for i in range(len(lineList)):
             x1,y1,x2,y2 = Canvas.coords(lineList[i])
             Canvas.coords(lineList[i],x1,y1,x2,A[i]*5)  
-            main.after(5,updatelines,i+1)
+            time.sleep(0.0001)
     UpdateLineslive.join()
     
 
