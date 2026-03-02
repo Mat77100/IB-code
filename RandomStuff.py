@@ -1,7 +1,7 @@
 import random as rng
 import tkinter as tk
 import time
-
+import threading
 global A
 A = []
 for i in range(1,101):
@@ -49,33 +49,28 @@ def QuickSort(A):
 
 #print("sorted array: ",QuickSort(A))
 
-#selection sort
 def SelectionSort():
-    global j,i,A,sorted, min_idx
+    global sorted,A
     if sorted:
+        SSortThread.join()
         randbtn.config(state="normal")
         sortbtn.config(state="normal")
         return
-    if i >= len(A)-1:
-        sorted = True
-        randbtn.config(state="normal")
-        sortbtn.config(state="normal")
-    if j == 1:
-        min_idx = i
-        j = i+1
-    if j < len(A):
-        if A[j] < A[min_idx]:
-            min_idx = j
-        j+=1
-        main.after(10,SelectionSort)
-    else:
-        if min_idx != i:
-            A[i],A[min_idx] = A[min_idx],A[i]
-            updatelines()
-        i +=1
-        j=1
-        main.after(10,SelectionSort)
-        
+    for i in range(len(A)):
+        minpos = i #assume each new pos is the smallest
+        for j in range(i+1, len(A)):
+            if A[j] < A[minpos]:
+                minpos = j #smaller value found (inside loop)
+        if minpos != i: #if they dont match (outside loop)
+            A[i],A[minpos] = A[minpos],A[i]
+        time.sleep(0.10)
+    sorted = True
+    randbtn.config(state="normal")
+    sortbtn.config(state="normal")
+    SSortThread.join()
+    
+    
+
 
 def BubbleStep():
     global A,i,j,sorted,speed
@@ -94,8 +89,8 @@ def BubbleStep():
         randbtn.config(state="normal")
         sortbtn.config(state="normal")
         sorted = True
-              
-            
+
+
 
 
 def randFun():
@@ -127,7 +122,18 @@ def StartSort():
     i = 0
     j = 0
     min_idx = 0
-    BubbleStep()
+    SSortThread.start()
+    updatelinesThread.start()
+
+def UpdateLineslive():
+    global sorted,lineList
+    while not sorted:
+        for i in range(len(lineList)):
+            x1,y1,x2,y2 = Canvas.coords(lineList[i])
+            Canvas.coords(lineList[i],x1,y1,x2,A[i]*5)  
+            main.after(5,updatelines,i+1)
+    UpdateLineslive.join()
+    
 
 sorted = True
 def SlowSpeed():
@@ -161,8 +167,10 @@ def ZoomSpeed():
 
 speed = 10
 
+SSortThread = threading.Thread(target=SelectionSort)
+updatelinesThread = threading.Thread(target=UpdateLineslive,daemon=True)
 main = tk.Tk()
-main.geometry("1400x700")
+main.geometry("1500x700")
 tk.Button(main,text="QUIT",command=main.destroy).pack()
 Canvas = tk.Canvas(main,width=1250,height=600)
 randbtn = tk.Button(main,text="Randomise!",command=randFun)
