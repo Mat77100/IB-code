@@ -52,10 +52,9 @@ def QuickSort(A):
 def SelectionSort():
     global sorted,A,speed
     if sorted:
-        SSortThread.join()
         randbtn.config(state="normal")
         sortbtn.config(state="normal")
-        return
+        sorted=True
     for i in range(len(A)):
         minpos = i #assume each new pos is the smallest
         for j in range(i+1, len(A)):
@@ -65,10 +64,8 @@ def SelectionSort():
             A[i],A[minpos] = A[minpos],A[i]
         time.sleep(speed/1000)
     sorted = True
-    SSortThread.join()
     randbtn.config(state="normal")
     sortbtn.config(state="normal")
-    return
     
     
 
@@ -79,7 +76,6 @@ def BubbleStep():
         if i <(len(A)-j-1):
             if A[i] > A[i+1]:
                 A[i],A[i+1] = A[i+1],A[i]
-                updatelines()
             i += 1
             main.after(speed,BubbleStep)
         else:
@@ -92,31 +88,22 @@ def BubbleStep():
         sorted = True
 
 
-
-
 def randFun():
+    global sorted,A
     randbtn.config(state="disabled")
     sortbtn.config(state="disabled")
-    global A,lineList,Canvas,unlock
-    unlock = True
+    global A,lineList,Canvas
     A = randomiser(A)
-    updatelines()
+    sorted = False
+    randbtn.config(state="normal")
+    sortbtn.config(state="normal")
 
 
-def updatelines(i=0):
-  global unlock,sorted,speed
-  if  i < len(lineList):
-      x1,y1,x2,y2 = Canvas.coords(lineList[i])
-      Canvas.coords(lineList[i],x1,y1,x2,A[i]*5)  
-      main.after(speed,updatelines,i+1)
-  else:
-      if unlock:
-          randbtn.config(state="normal")
-          sortbtn.config(state="normal")
-          unlock = False
-          sorted = False
 
 def StartSort():
+    global sorted,is_running
+    if sorted:
+        return
     randbtn.config(state="disabled")
     sortbtn.config(state="disabled")
     global i, j,min_idx
@@ -124,50 +111,59 @@ def StartSort():
     j = 0
     min_idx = 0
     SSortThread.start()
-    updatelinesThread.start()
+    is_running = True
 
 def UpdateLineslive():
-    global sorted,lineList,speed
-    while not sorted:
-        for i in range(len(lineList)):
-            x1,y1,x2,y2 = Canvas.coords(lineList[i])
-            Canvas.coords(lineList[i],x1,y1,x2,A[i]*5)  
-            time.sleep(0.0001)
-    UpdateLineslive.join()
+    global sorted,lineList,speed,is_running
+    while True:
+        if sorted and is_running:
+            print("in if")
+            print(SSortThread.is_alive())
+            if SSortThread.is_alive():
+                SSortThread.join()
+                is_running = False
+                print("false")
+        print("checking")
+        while not sorted:
+            for i in range(len(lineList)):
+                x1,y1,x2,y2 = Canvas.coords(lineList[i])
+                Canvas.coords(lineList[i],x1,y1,x2,A[i]*5)  
+                time.sleep(0.0001)
+
     
 
 sorted = True
 def SlowSpeed():
     global speed
-    speed = 30
+    speed = 50
     slowbtn.config(bg="grey")
     mediumbtn.config(bg="white")
     fastbtn.config(bg="white")
     zoombtn.config(bg="white")
 def MediumSpeed():
     global speed
-    speed = 10
+    speed = 30
     slowbtn.config(bg="white")
     mediumbtn.config(bg="grey")
     fastbtn.config(bg="white")
     zoombtn.config(bg="white")
 def FastSpeed():
     global speed
-    speed = 5
+    speed = 10
     slowbtn.config(bg="white")
     mediumbtn.config(bg="white")
     fastbtn.config(bg="grey")
     zoombtn.config(bg="white")
 def ZoomSpeed():
     global speed
-    speed = 1
+    speed = 2
     slowbtn.config(bg="white")
     mediumbtn.config(bg="white")
     fastbtn.config(bg="white")
     zoombtn.config(bg="grey")
 
 speed = 10
-
+is_running = False
 SSortThread = threading.Thread(target=SelectionSort)
 updatelinesThread = threading.Thread(target=UpdateLineslive,daemon=True)
 main = tk.Tk()
@@ -194,4 +190,7 @@ for i in range(0,100):
     line = Canvas.create_line(i+distance,501,i+distance,A[i]*5,fill="blue",width=10)
     lineList.append(line)
     distance += 10
+updatelinesThread.start()
 main.mainloop()
+
+
