@@ -30,7 +30,6 @@ class Playlist(): #uses SongNode to make lis
             self.current = self.current.prev #set the current song to the previous
 
 my_vibe = Playlist()
-
 my_vibe.add_song("Bohemian Rapsody","The Queens")
 my_vibe.add_song("Mr. Blue Sky","Electronic Light Orchestra")
 my_vibe.add_song("Money for Nothing","Dire Straits")
