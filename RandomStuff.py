@@ -66,8 +66,8 @@ def SelectionSort():
     sorted = True
     randbtn.config(state="normal")
     sortbtn.config(state="normal")
-    
-    
+
+
 
 
 def BubbleStep():
@@ -110,27 +110,27 @@ def StartSort():
     i = 0
     j = 0
     min_idx = 0
+    SSortThread = threading.Thread(target=SelectionSort)
     SSortThread.start()
     is_running = True
 
 def UpdateLineslive():
     global sorted,lineList,speed,is_running
     while True:
-        if sorted and is_running:
-            print("in if")
-            print(SSortThread.is_alive())
-            if SSortThread.is_alive():
-                SSortThread.join()
-                is_running = False
-                print("false")
-        print("checking")
+        try:
+            if sorted and is_running:
+                if SSortThread.is_alive():
+                    SSortThread.join()
+                    is_running = False
+        except:
+            pass
         while not sorted:
             for i in range(len(lineList)):
                 x1,y1,x2,y2 = Canvas.coords(lineList[i])
                 Canvas.coords(lineList[i],x1,y1,x2,A[i]*5)  
                 time.sleep(0.0001)
 
-    
+
 
 sorted = True
 def SlowSpeed():
@@ -164,7 +164,6 @@ def ZoomSpeed():
 
 speed = 10
 is_running = False
-SSortThread = threading.Thread(target=SelectionSort)
 updatelinesThread = threading.Thread(target=UpdateLineslive,daemon=True)
 main = tk.Tk()
 main.geometry("1500x700")
@@ -192,5 +191,4 @@ for i in range(0,100):
     distance += 10
 updatelinesThread.start()
 main.mainloop()
-
 
