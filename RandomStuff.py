@@ -1,3 +1,4 @@
+
 import random as rng
 import tkinter as tk
 import time
@@ -67,25 +68,20 @@ def SelectionSort():
     randbtn.config(state="normal")
     sortbtn.config(state="normal")
 
-
-
-
-def BubbleStep():
-    global A,i,j,sorted,speed
-    if j < (len(A)-1) and not sorted:
-        if i <(len(A)-j-1):
-            if A[i] > A[i+1]:
-                A[i],A[i+1] = A[i+1],A[i]
-            i += 1
-            main.after(speed,BubbleStep)
-        else:
-            i = 0
-            j += 1
-            main.after(speed,BubbleStep)
-    else:
+def BubbleSort():
+    global A,sorted,speed
+    if sorted:
         randbtn.config(state="normal")
         sortbtn.config(state="normal")
-        sorted = True
+        sorted=True
+    for j in range(len(A)-1):
+        for i in range(len(A)-j-1):
+            if A[i] > A[i+1]:
+                A[i],A[i+1] = A[i+1],A[i]
+                time.sleep(speed/1000)
+    sorted = True
+    randbtn.config(state="normal")
+    sortbtn.config(state="normal")
 
 
 def randFun():
@@ -101,17 +97,16 @@ def randFun():
 
 
 def StartSort():
-    global sorted,is_running
+    global sorted,is_running,sort
     if sorted:
         return
     randbtn.config(state="disabled")
     sortbtn.config(state="disabled")
-    global i, j,min_idx
-    i = 0
-    j = 0
-    min_idx = 0
-    SSortThread = threading.Thread(target=SelectionSort)
-    SSortThread.start()
+    if sort.get() == 1:
+        SortThread = threading.Thread(target=SelectionSort)
+    elif sort.get() == 2:
+        SortThread = threading.Thread(target=BubbleSort)
+    SortThread.start()
     is_running = True
 
 def UpdateLineslive():
@@ -119,8 +114,8 @@ def UpdateLineslive():
     while True:
         try:
             if sorted and is_running:
-                if SSortThread.is_alive():
-                    SSortThread.join()
+                if SortThread.is_alive():
+                    SortThread.join()
                     is_running = False
         except:
             pass
@@ -162,12 +157,18 @@ def ZoomSpeed():
     fastbtn.config(bg="white")
     zoombtn.config(bg="grey")
 
+
+sortingAlgorithm = [("Selection Sort",1),("Bubble Sort",2),]
+
+
 speed = 10
 is_running = False
 updatelinesThread = threading.Thread(target=UpdateLineslive,daemon=True)
 main = tk.Tk()
-main.geometry("1500x700")
+main.geometry("1500x900")
 tk.Button(main,text="QUIT",command=main.destroy).pack()
+sort = tk.IntVar()
+sort.set(1)
 Canvas = tk.Canvas(main,width=1250,height=600)
 randbtn = tk.Button(main,text="Randomise!",command=randFun)
 sortbtn = tk.Button(main,text="Sort!",command=StartSort)
@@ -189,6 +190,8 @@ for i in range(0,100):
     line = Canvas.create_line(i+distance,501,i+distance,A[i]*5,fill="blue",width=10)
     lineList.append(line)
     distance += 10
+for sorters,val in sortingAlgorithm:
+    tk.Radiobutton(main,text=sorters,variable=sort,value=val,).pack()
 updatelinesThread.start()
 main.mainloop()
 
