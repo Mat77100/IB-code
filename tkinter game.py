@@ -13,15 +13,33 @@ VerticalMoveIncrement = 0
 
 
 def PlayerMovingThread():
-    global root
+    global root,HorizontalMoveIncrement,VerticalMoveIncrement
+
+    if (MainCanvas.coords(Player))[1] < 0:
+        DistanceToEdge = (MainCanvas.coords(Player))[1]
+        VerticalMoveIncrement = 0
+        MainCanvas.move(Player,0,DistanceToEdge*-1)
+    if (MainCanvas.coords(Player))[3] > 600:
+        DistanceToEdge = 600 - (MainCanvas.coords(Player))[3]
+        VerticalMoveIncrement = 0
+        MainCanvas.move(Player,0,DistanceToEdge)
+    if (MainCanvas.coords(Player))[0] < 0:
+        DistanceToEdge = (MainCanvas.coords(Player))[0]
+        HorizontalMoveIncrement = 0
+        MainCanvas.move(Player,DistanceToEdge*-1,0)
+    if (MainCanvas.coords(Player))[2] > 1000:
+        DistanceToEdge = 1000 - (MainCanvas.coords(Player))[2]
+        HorizontalMoveIncrement = 0
+        MainCanvas.move(Player,DistanceToEdge,0)
+    
     MainCanvas.move(Player, HorizontalMoveIncrement, VerticalMoveIncrement)
-    root.after(30,PlayerMovingThread)
+    root.after(25,PlayerMovingThread)
  
 
 
 def StartPlayerMoveUp(event):
     global VerticalMoveIncrement
-    VerticalMoveIncrement = -3    
+    VerticalMoveIncrement = -2   
     
 def StopPlayerMoveUp(event):
     global VerticalMoveIncrement
@@ -31,7 +49,7 @@ def StopPlayerMoveUp(event):
 
 def StartPlayerMoveDown(event):
     global VerticalMoveIncrement
-    VerticalMoveIncrement = 3
+    VerticalMoveIncrement = 2
 
 def StopPlayerMoveDown(event):
     global VerticalMoveIncrement
@@ -41,7 +59,7 @@ def StopPlayerMoveDown(event):
 
 def StartPlayerMoveLeft(event):
     global HorizontalMoveIncrement
-    HorizontalMoveIncrement = -3
+    HorizontalMoveIncrement = -2
 
 def StopPlayerMoveLeft(event):
     global HorizontalMoveIncrement
@@ -51,7 +69,7 @@ def StopPlayerMoveLeft(event):
 
 def StartPlayerMoveRight(event):
     global HorizontalMoveIncrement
-    HorizontalMoveIncrement = 3
+    HorizontalMoveIncrement = 2
 
 def StopPlayerMoveRight(event):
     global HorizontalMoveIncrement
@@ -78,6 +96,15 @@ root.bind('<KeyPress-Left>', StartPlayerMoveLeft)
 root.bind('<KeyRelease-Left>', StopPlayerMoveLeft)
 root.bind('<KeyPress-Right>', StartPlayerMoveRight)
 root.bind('<KeyRelease-Right>', StopPlayerMoveRight)
+
+root.bind('<KeyPress-w>', StartPlayerMoveUp)
+root.bind('<KeyRelease-w>', StopPlayerMoveUp)
+root.bind('<KeyPress-s>', StartPlayerMoveDown)
+root.bind('<KeyRelease-s>', StopPlayerMoveDown)
+root.bind('<KeyPress-a>', StartPlayerMoveLeft)
+root.bind('<KeyRelease-a>', StopPlayerMoveLeft)
+root.bind('<KeyPress-d>', StartPlayerMoveRight)
+root.bind('<KeyRelease-d>', StopPlayerMoveRight)
 
 PlayerMovingThread()
 
