@@ -1,6 +1,5 @@
 #made 18/5/2026
 import tkinter as tk
-import threading
 from time import *
 
 
@@ -76,6 +75,18 @@ def StopPlayerMoveRight(event):
     HorizontalMoveIncrement = 0
 
 
+def PlayerShoot(event):
+    global line
+    if line != False:
+        MainCanvas.delete(line)
+        line = False
+        return
+    else:
+        PlayerX = (MainCanvas.coords(Player)[0] + MainCanvas.coords(Player)[2])/2 #Decimal pixels possible??
+        PlayerY = (MainCanvas.coords(Player)[1] + MainCanvas.coords(Player)[3])/2 #Decimal pixels possible??
+        line = MainCanvas.create_line(PlayerX,PlayerY,PlayerX+1000,PlayerY, )
+        root.after(PlayerShoot,1000)
+
 
 
 
@@ -85,7 +96,7 @@ MainCanvas = tk.Canvas(root, width=1000, height=600)
 MainCanvas.pack()
 
 Player = MainCanvas.create_rectangle(450,250,550,350,fill="Blue")
-
+line = False
 
 
 root.bind('<KeyPress-Up>', StartPlayerMoveUp)
@@ -105,6 +116,8 @@ root.bind('<KeyPress-a>', StartPlayerMoveLeft)
 root.bind('<KeyRelease-a>', StopPlayerMoveLeft)
 root.bind('<KeyPress-d>', StartPlayerMoveRight)
 root.bind('<KeyRelease-d>', StopPlayerMoveRight)
+
+root.bind('<KeyPress-space>',PlayerShoot)
 
 PlayerMovingThread()
 

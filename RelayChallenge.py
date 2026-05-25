@@ -30,7 +30,7 @@ class OldSat(CommSat):
         self.malfunctionChance = malfunctionChance
     def processSignal(self):
         RNG = random.randint(1,100)
-        if RNG > self.malfunctionChance:
+        if RNG < self.malfunctionChance:
             print("**TRANSMISSION ERROR -- SIGNAL SIGNIFICANTLY REDUCED**")
             return self.currentSignal - self.signalLoss * 2
         else:
@@ -43,11 +43,11 @@ def CreateNetwork(size): #genarates a random network comprised of mainly Comm Sa
     for i in range(0,size):
         sat = random.randint(1,6)
         if sat == 1 or sat == 2 or sat == 3:
-            SatNetwork.append(CommSat("Standared Communaction Satellite",random.randint(10000,99999),random.randint(5,10),0))
+            SatNetwork.append(CommSat("Standared Communaction Satellite",random.randint(10000,99999),random.randint(-3,10),0))
         elif sat == 4:
             SatNetwork.append(relaySat("New High-Power Relay Satellite",random.randint(1000,9999),random.randint(10,15),0))
         elif sat == 6:
-            SatNetwork.append(OldSat("Old Weak Satellite",random.randint(100,999),random.randint(10,15),0,random.randint(5,10)))
+            SatNetwork.append(OldSat("Old Weak Satellite",random.randint(100,999),random.randint(10,15),0,random.randint(0,15)))
     return SatNetwork
 
 
@@ -57,9 +57,10 @@ def SendSignal(SignalStrength, S=0):
         return 0
     elif S == len(SatNetwork):
         return SignalStrength
-    
     SatNetwork[S].setCurSig(SignalStrength)
     SignalStrength = SatNetwork[S].processSignal()
+    if SignalStrength > 100:
+        SignalStrength = 100
     print("New Signal Strength: ",SignalStrength)
     time.sleep(0.5)
     return SendSignal(SignalStrength, S+1)
