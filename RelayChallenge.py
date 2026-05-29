@@ -20,7 +20,7 @@ class CommSat:
 class relaySat(CommSat):
     def __init__(self,name,ID,signalgain,currentSignal):
         super().__init__(name,ID,0,currentSignal)
-        self.signalgain = signalgain
+        self.signalgain = signalgain        
     def processSignal(self):
         return self.currentSignal + self.signalgain
 
@@ -47,7 +47,7 @@ def CreateNetwork(size): #genarates a random network comprised of mainly Comm Sa
         elif sat == 4:
             SatNetwork.append(relaySat("New High-Power Relay Satellite",random.randint(1000,9999),random.randint(10,15),0))
         elif sat == 6:
-            SatNetwork.append(OldSat("Old Weak Satellite",random.randint(100,999),random.randint(10,15),0,random.randint(0,15)))
+            SatNetwork.append(OldSat("Old Weak Satellite",random.randint(100,999),random.randint(10,15),0,random.randint(4,15)))
     return SatNetwork
 
 

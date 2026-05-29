@@ -75,7 +75,10 @@ def StopPlayerMoveRight(event):
     HorizontalMoveIncrement = 0
 
 
-def PlayerShoot(event):
+def PlayerShootPress(event):
+    PlayerShoot()
+
+def PlayerShoot():
     global line
     if line != False:
         MainCanvas.delete(line)
@@ -85,8 +88,7 @@ def PlayerShoot(event):
         PlayerX = (MainCanvas.coords(Player)[0] + MainCanvas.coords(Player)[2])/2 #Decimal pixels possible??
         PlayerY = (MainCanvas.coords(Player)[1] + MainCanvas.coords(Player)[3])/2 #Decimal pixels possible??
         line = MainCanvas.create_line(PlayerX,PlayerY,PlayerX+1000,PlayerY, )
-        root.after(PlayerShoot,1000)
-
+        root.after_idle(PlayerShoot,1000,) #requires to be threaded i think, which means PlaterShootPress isnt really needed i think
 
 
 
@@ -117,7 +119,7 @@ root.bind('<KeyRelease-a>', StopPlayerMoveLeft)
 root.bind('<KeyPress-d>', StartPlayerMoveRight)
 root.bind('<KeyRelease-d>', StopPlayerMoveRight)
 
-root.bind('<KeyPress-space>',PlayerShoot)
+root.bind('<KeyPress-space>',PlayerShootPress)
 
 PlayerMovingThread()
 
