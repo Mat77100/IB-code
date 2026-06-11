@@ -1,7 +1,7 @@
 #made 18/5/2026
 import tkinter as tk
 from time import *
-
+import threading
 
 
 
@@ -77,6 +77,7 @@ def StopPlayerMoveRight(event):
 
 def PlayerShootPress(event):
     PlayerShoot()
+    ShootThread = threading.Thread(target=PlayerShoot, daemon=True)
 
 def PlayerShoot():
     global line
@@ -90,6 +91,10 @@ def PlayerShoot():
         line = MainCanvas.create_line(PlayerX,PlayerY,PlayerX+1000,PlayerY, )
         root.after_idle(PlayerShoot,1000,) #requires to be threaded i think, which means PlaterShootPress isnt really needed i think
 
+def MousePositionTracker(event):
+    MouseX, MouseY = event.x, event.y
+    print(MouseX, MouseY)
+    MainCanvas.moveto(CUBE,MouseX, MouseY)
 
 
 root = tk.Tk()
@@ -99,6 +104,7 @@ MainCanvas.pack()
 
 Player = MainCanvas.create_rectangle(450,250,550,350,fill="Blue")
 line = False
+CUBE = MainCanvas.create_rectangle(0,0,50,50)
 
 
 root.bind('<KeyPress-Up>', StartPlayerMoveUp)
@@ -120,6 +126,7 @@ root.bind('<KeyPress-d>', StartPlayerMoveRight)
 root.bind('<KeyRelease-d>', StopPlayerMoveRight)
 
 root.bind('<KeyPress-space>',PlayerShootPress)
+root.bind('<Motion>',MousePositionTracker)
 
 PlayerMovingThread()
 
