@@ -4,7 +4,15 @@ from time import *
 import threading
 
 
+'''
 
+IDEA FOR HOW TO MAKE THIS A GAME, THINK CITYBUILDER/IDLE/TYCOON GAME, EACH SQUARE OF PAINT WILL DO SMTH (DEPENDING ON THE COLOUR)
+
+
+
+
+
+'''
 
 HorizontalMoveIncrement = 0
 VerticalMoveIncrement = 0
@@ -75,27 +83,51 @@ def StopPlayerMoveRight(event):
     HorizontalMoveIncrement = 0
 
 
-def PlayerShootPress(event):
-    PlayerShoot()
-    ShootThread = threading.Thread(target=PlayerShoot, daemon=True)
 
-def PlayerShoot():
-    global line
-    if line != False:
-        MainCanvas.delete(line)
-        line = False
-        return
-    else:
-        PlayerX = (MainCanvas.coords(Player)[0] + MainCanvas.coords(Player)[2])/2 #Decimal pixels possible??
-        PlayerY = (MainCanvas.coords(Player)[1] + MainCanvas.coords(Player)[3])/2 #Decimal pixels possible??
-        line = MainCanvas.create_line(PlayerX,PlayerY,PlayerX+1000,PlayerY, )
-        root.after_idle(PlayerShoot,1000,) #requires to be threaded i think, which means PlaterShootPress isnt really needed i think
+#Mouse stuff
 
-def MousePositionTracker(event):
-    MouseX, MouseY = event.x, event.y
-    print(MouseX, MouseY)
-    MainCanvas.moveto(CUBE,MouseX, MouseY)
+class brush():
+    def __init__(self, MainCanvas):
+        self.MainCanvas = MainCanvas
+        self.MouseX = 0
+        self.MouseY = 0
+        self.IsPressed = False
+        self.SquareSize = 5
 
+        MainCanvas.bind('<Motion>',self.MousePositionTracker)
+        MainCanvas.bind('<Button-1>', self.MouseClick)
+        MainCanvas.bind('<ButtonRelease-1>', self.MouseRelease)
+        MainCanvas.bind('<MouseWheel>',self.ScrollWheel)
+
+        self.BrushUpdate()
+
+    def MousePositionTracker(self, event):
+        self.MouseX, self.MouseY = event.x, event.y
+        
+    def MouseClick(self,event):
+        self.IsPressed = True
+    def MouseRelease(self,event):
+        self.IsPressed = False
+    
+    def ScrollWheel(self,event):
+        if event.delta > 0:
+            self.SquareSize +=1
+        elif self.SquareSize !=1:
+            self.SquareSize -=1
+    
+    def BrushUpdate(self):
+        if self.IsPressed == True:
+            S = self.SquareSize
+            self.MainCanvas.create_rectangle(
+                self.MouseX + S,
+                self.MouseY + S,
+                self.MouseX - S,
+                self.MouseY - S,
+                fill="red")
+        self.MainCanvas.after(20,self.BrushUpdate)
+
+
+#Tkinter
 
 root = tk.Tk()
 root.geometry("1000x600")
@@ -104,9 +136,10 @@ MainCanvas.pack()
 
 Player = MainCanvas.create_rectangle(450,250,550,350,fill="Blue")
 line = False
-CUBE = MainCanvas.create_rectangle(0,0,50,50)
 
+MainBrush = brush(MainCanvas)
 
+#Bindings
 root.bind('<KeyPress-Up>', StartPlayerMoveUp)
 root.bind('<KeyRelease-Up>', StopPlayerMoveUp)
 root.bind('<KeyPress-Down>', StartPlayerMoveDown)
@@ -125,8 +158,6 @@ root.bind('<KeyRelease-a>', StopPlayerMoveLeft)
 root.bind('<KeyPress-d>', StartPlayerMoveRight)
 root.bind('<KeyRelease-d>', StopPlayerMoveRight)
 
-root.bind('<KeyPress-space>',PlayerShootPress)
-root.bind('<Motion>',MousePositionTracker)
 
 PlayerMovingThread()
 
