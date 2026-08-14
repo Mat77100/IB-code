@@ -7,7 +7,7 @@ import threading
 '''
 
 IDEA FOR HOW TO MAKE THIS A GAME, THINK CITYBUILDER/IDLE/TYCOON GAME, EACH SQUARE OF PAINT WILL DO SMTH (DEPENDING ON THE COLOUR)
-
+also make cube^TM smaller
 
 
 
@@ -82,7 +82,27 @@ def StopPlayerMoveRight(event):
     global HorizontalMoveIncrement
     HorizontalMoveIncrement = 0
 
+#ENEMY
+class Enemy():
+    def __init__(self,speed,colour,MainCanvas,ID):
+        self.ID = ID
+        self.MainCanvas = MainCanvas
+        self.speed = 5
+        self.colour = colour
+        self.size = 15
 
+    def MoveToPlayer(self):
+        self.MainCanvas.move(self.ID,)
+
+'''
+ENEMY MOVEMENT:
+take coordinates of enemy and player
+find the difference between them to give the x and y components
+use pythagoras to find the true distance
+Normalize by dividing each component by the true distance
+multiply the normalized x and y by the max speed
+move the enemy, repeat per frame
+'''
 
 #Mouse stuff
 
@@ -99,7 +119,10 @@ class brush():
         MainCanvas.bind('<ButtonRelease-1>', self.MouseRelease)
         MainCanvas.bind('<MouseWheel>',self.ScrollWheel)
 
+        self.SquareList = []
+
         self.BrushUpdate()
+       
 
     def MousePositionTracker(self, event):
         self.MouseX, self.MouseY = event.x, event.y
@@ -114,28 +137,45 @@ class brush():
             self.SquareSize +=1
         elif self.SquareSize !=1:
             self.SquareSize -=1
-    
+
     def BrushUpdate(self):
+        Name = 0
         if self.IsPressed == True:
             S = self.SquareSize
-            self.MainCanvas.create_rectangle(
+            SquareID = self.MainCanvas.create_rectangle(
                 self.MouseX + S,
                 self.MouseY + S,
                 self.MouseX - S,
                 self.MouseY - S,
                 fill="red")
+            self.SquareList.append(SquareID)
+            self.Delay(SquareID)
         self.MainCanvas.after(20,self.BrushUpdate)
 
+    def Delay(self, SquareID):
+        self.MainCanvas.after(1500, lambda: self.RemoveSquare(SquareID),)
+
+    def RemoveSquare(self, SquareID):
+
+        self.SquareList.remove(SquareID)  
+        self.MainCanvas.delete(SquareID)
+
+    def RemoveSquares(self):
+        if len(self.SquareList) > 0:
+            Square_To_Delete = self.SquareList.pop(0)
+            self.MainCanvas.delete(Square_To_Delete)
+        self.MainCanvas.after(1000,self.RemoveSquares)
 
 #Tkinter
 
 root = tk.Tk()
-root.geometry("1000x600")
+root.geometry("1050x600")
 MainCanvas = tk.Canvas(root, width=1000, height=600)
 MainCanvas.pack()
 
 Player = MainCanvas.create_rectangle(450,250,550,350,fill="Blue")
 line = False
+
 
 MainBrush = brush(MainCanvas)
 
