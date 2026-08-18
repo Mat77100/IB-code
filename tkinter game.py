@@ -1,14 +1,14 @@
 #made 18/5/2026
 import tkinter as tk
 from time import *
-import threading
+import math
 
 
 '''
 
 IDEA FOR HOW TO MAKE THIS A GAME, THINK CITYBUILDER/IDLE/TYCOON GAME, EACH SQUARE OF PAINT WILL DO SMTH (DEPENDING ON THE COLOUR)
 also make cube^TM smaller
-
+or idk like u can paint to fight
 
 
 
@@ -84,15 +84,43 @@ def StopPlayerMoveRight(event):
 
 #ENEMY
 class Enemy():
-    def __init__(self,speed,colour,MainCanvas,ID):
-        self.ID = ID
+    def __init__(self,speed,colour,MainCanvas, SpawnX, SpawnY):
         self.MainCanvas = MainCanvas
-        self.speed = 5
+        self.speed = speed
         self.colour = colour
-        self.size = 15
+        self.size = 15 #MAKE THIS CONTROLLABLE
+        self.ID = self.MainCanvas.create_rectangle(SpawnX,SpawnY,SpawnX+50,SpawnY+50,fill=str(self.colour))
+
+        self.MoveToPlayer()
 
     def MoveToPlayer(self):
-        self.MainCanvas.move(self.ID,)
+        EnemyX1 = self.MainCanvas.coords(self.ID)[0]
+        EnemyY1 = self.MainCanvas.coords(self.ID)[1]
+        EnemyX2 = self.MainCanvas.coords(self.ID)[2]
+        EnemyY2 = self.MainCanvas.coords(self.ID)[3]
+        #center of enemy:
+        EnemyCoord = [(EnemyX1 + EnemyX2)/2 , (EnemyY1 + EnemyY2)/2]
+
+        PlayerX1 = self.MainCanvas.coords(Player)[0]
+        PlayerY1 = self.MainCanvas.coords(Player)[1]
+        PlayerX2 = self.MainCanvas.coords(Player)[2]
+        PlayerY2 = self.MainCanvas.coords(Player)[3]
+        #center of player:
+        PlayerCoord = [(PlayerX1 + PlayerX2)/2 , (PlayerY1 + PlayerY2)/2]
+
+        Xcomponent = EnemyCoord[0] - PlayerCoord[0]
+        Ycomponent = EnemyCoord[1] - PlayerCoord[1]
+
+        TrueDistance = math.sqrt(Xcomponent**2 + Ycomponent**2)
+
+        NormalX = Xcomponent / TrueDistance
+        NormalY = Ycomponent / TrueDistance
+
+        SpeedX = self.speed * NormalX
+        SpeedY = self.speed * NormalY
+
+        self.MainCanvas.move(self.ID, SpeedX*-1, SpeedY*-1)
+        self.MainCanvas.after(100, self.MoveToPlayer)
 
 '''
 ENEMY MOVEMENT:
@@ -177,7 +205,11 @@ Player = MainCanvas.create_rectangle(450,250,550,350,fill="Blue")
 line = False
 
 
+Enemy1 = Enemy(5,"red",MainCanvas,0,0)
+
 MainBrush = brush(MainCanvas)
+
+
 
 #Bindings
 root.bind('<KeyPress-Up>', StartPlayerMoveUp)
