@@ -2,7 +2,7 @@
 import tkinter as tk
 from time import *
 import math
-
+import random
 
 '''
 
@@ -18,7 +18,7 @@ HorizontalMoveIncrement = 0
 VerticalMoveIncrement = 0
 
 
-
+#MAKE THIS A CLASS
 def PlayerMovingThread():
     global root,HorizontalMoveIncrement,VerticalMoveIncrement
 
@@ -46,7 +46,7 @@ def PlayerMovingThread():
 
 def StartPlayerMoveUp(event):
     global VerticalMoveIncrement
-    VerticalMoveIncrement = -2   
+    VerticalMoveIncrement = -4  
     
 def StopPlayerMoveUp(event):
     global VerticalMoveIncrement
@@ -56,7 +56,7 @@ def StopPlayerMoveUp(event):
 
 def StartPlayerMoveDown(event):
     global VerticalMoveIncrement
-    VerticalMoveIncrement = 2
+    VerticalMoveIncrement = 4
 
 def StopPlayerMoveDown(event):
     global VerticalMoveIncrement
@@ -66,7 +66,7 @@ def StopPlayerMoveDown(event):
 
 def StartPlayerMoveLeft(event):
     global HorizontalMoveIncrement
-    HorizontalMoveIncrement = -2
+    HorizontalMoveIncrement = -4
 
 def StopPlayerMoveLeft(event):
     global HorizontalMoveIncrement
@@ -76,20 +76,24 @@ def StopPlayerMoveLeft(event):
 
 def StartPlayerMoveRight(event):
     global HorizontalMoveIncrement
-    HorizontalMoveIncrement = 2
+    HorizontalMoveIncrement = 4
 
 def StopPlayerMoveRight(event):
     global HorizontalMoveIncrement
     HorizontalMoveIncrement = 0
 
+
+
+
+
 #ENEMY
 class Enemy():
-    def __init__(self,speed,colour,MainCanvas, SpawnX, SpawnY):
+    def __init__(self,speed,size,colour,MainCanvas, SpawnX, SpawnY):
         self.MainCanvas = MainCanvas
         self.speed = speed
         self.colour = colour
-        self.size = 15 #MAKE THIS CONTROLLABLE
-        self.ID = self.MainCanvas.create_rectangle(SpawnX,SpawnY,SpawnX+50,SpawnY+50,fill=str(self.colour))
+        self.size = size
+        self.ID = self.MainCanvas.create_rectangle(SpawnX,SpawnY,SpawnX+self.size,SpawnY+self.size,fill=str(self.colour))
 
         self.MoveToPlayer()
 
@@ -122,6 +126,14 @@ class Enemy():
         self.MainCanvas.move(self.ID, SpeedX*-1, SpeedY*-1)
         self.MainCanvas.after(100, self.MoveToPlayer)
 
+
+'''IMPORTANT!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+MAKE THE GAME RUN ON ONE CENTRAL LOOP
+basically instead of several .after, have one .after running a functiuon called update or smth that then contains command to do stuff, for example you can remove the .after in the enemy MoveToPlayer method by simply calling MoveToPlayer in the central update loop
+'''
+
+
+
 '''
 ENEMY MOVEMENT:
 take coordinates of enemy and player
@@ -131,6 +143,11 @@ Normalize by dividing each component by the true distance
 multiply the normalized x and y by the max speed
 move the enemy, repeat per frame
 '''
+
+
+
+
+
 
 #Mouse stuff
 
@@ -194,18 +211,28 @@ class brush():
             self.MainCanvas.delete(Square_To_Delete)
         self.MainCanvas.after(1000,self.RemoveSquares)
 
+def SpawnStandardEnemy():
+    Enemy(5,15,"red",MainCanvas, random.randint(0,1000), random.randint(0,600))
+
+
+
+
+
+
+
+
 #Tkinter
 
 root = tk.Tk()
-root.geometry("1050x600")
+root.geometry("1000x700")
 MainCanvas = tk.Canvas(root, width=1000, height=600)
 MainCanvas.pack()
 
-Player = MainCanvas.create_rectangle(450,250,550,350,fill="Blue")
+SpawnEnemyButton = tk.Button(root,text="Spawn standard enemy", command=SpawnStandardEnemy)
+
+SpawnEnemyButton.pack()
+Player = MainCanvas.create_rectangle(450,250,500,300,fill="Blue")
 line = False
-
-
-Enemy1 = Enemy(5,"red",MainCanvas,0,0)
 
 MainBrush = brush(MainCanvas)
 
