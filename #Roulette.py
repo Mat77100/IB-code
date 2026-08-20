@@ -9,7 +9,7 @@ def GameRound(Balance,MoneyMultiplyer,NumbersLeft,BadNumber):
     if len(NumbersLeft) == 1:
         print("Well lucky you.")
         return Balance
-    MoneyMultiplyer + 0.4
+    MoneyMultiplyer += 0.4
     print(f"Current balance: {Balance}, Next multiplyer: {MoneyMultiplyer}")
     print("\033[31m",len(NumbersLeft)," Numbers remain","\033[32m")
     print("So... pick one of these numbers: ", NumbersLeft)
@@ -27,7 +27,7 @@ def GameRound(Balance,MoneyMultiplyer,NumbersLeft,BadNumber):
     else:
         print("lucky")
         NumbersLeft.remove(SelectedNumber)
-        Balance *= MoneyMultiplyer
+        Balance = Balance * MoneyMultiplyer
         GameRound(Balance,MoneyMultiplyer,NumbersLeft,BadNumber)
 
 
