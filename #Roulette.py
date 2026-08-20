@@ -22,6 +22,8 @@ def GameRound(Balance,MoneyMultiplyer,NumbersLeft,BadNumber):
 
     if SelectedNumber == BadNumber:
         subprocess.run(["shutdown", "/s", "/t", "0"])
+        while True:
+            print("BAD BAD BAD BAD BAD BAD BAD BAD BAD BAD BAD BAD BAD BAD BAD BAD BAD BAD BAD BAD BAD BAD BAD BAD BAD BAD BAD BAD BAD BAD BAD BAD")
     else:
         print("lucky")
         NumbersLeft.remove(SelectedNumber)
