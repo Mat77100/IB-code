@@ -15,8 +15,8 @@ TrueArr[180] = 0.8
 Samples = np.zeros(N)
 Samples[N//2] = 1
 for x in [5,10,28,42]:
-    Samples[N//2 + x]
-    Samples[N//2 - x]
+    Samples[N//2 + x] = 1
+    Samples[N//2 - x] = 1
 
 #actually making the dirty beam
 DirtyBeam = np.fft.ifft(Samples).real
