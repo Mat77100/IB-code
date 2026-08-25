@@ -214,7 +214,9 @@ class brush():
 def SpawnStandardEnemy():
     Enemy(5,15,"red",MainCanvas, random.randint(0,1000), random.randint(0,600))
 
-
+def SpawnRandomEnemy():
+    colours = ["red","blue","green","yellow","black","yellow","cyan","orange"]
+    Enemy(random.randint(1,10),random.randint(10,25),random.choice(colours),MainCanvas, random.randint(0,1000), random.randint(0,600))
 
 
 
@@ -229,7 +231,9 @@ MainCanvas = tk.Canvas(root, width=1000, height=600)
 MainCanvas.pack()
 
 SpawnEnemyButton = tk.Button(root,text="Spawn standard enemy", command=SpawnStandardEnemy)
+SpawnRandomEnemyButton = tk.Button(root,text="Spawn random enemy", command=SpawnRandomEnemy)
 
+SpawnRandomEnemyButton.pack()
 SpawnEnemyButton.pack()
 Player = MainCanvas.create_rectangle(450,250,500,300,fill="Blue")
 line = False
