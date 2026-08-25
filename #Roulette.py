@@ -1,4 +1,5 @@
 #Roulette
+#created 20/08/2026
 import subprocess,random
 print("\033[32m")
 Balance = 100
@@ -9,7 +10,7 @@ def GameRound(Balance,MoneyMultiplyer,NumbersLeft,BadNumber):
     if len(NumbersLeft) == 1:
         print("Well lucky you.")
         return Balance
-    MoneyMultiplyer += 0.4
+    MoneyMultiplyer = round(MoneyMultiplyer + 0.4,1)
     print(f"Current balance: {Balance}, Next multiplyer: {MoneyMultiplyer}")
     print("\033[31m",len(NumbersLeft)," Numbers remain","\033[32m")
     print("So... pick one of these numbers: ", NumbersLeft)
@@ -21,13 +22,14 @@ def GameRound(Balance,MoneyMultiplyer,NumbersLeft,BadNumber):
             print("Invalid input")
 
     if SelectedNumber == BadNumber:
-        subprocess.run(["shutdown", "/s", "/t", "0"])
-        while True:
+        Comment = f"How unlucky, you were so close to making it out with ${Balance} with only {len(NumbersLeft)} numbers left. Choose better next time"
+        subprocess.run(["shutdown", "/s", "/t", "0", "/c", Comment])
+        for i in range(10):
             print("BAD BAD BAD BAD BAD BAD BAD BAD BAD BAD BAD BAD BAD BAD BAD BAD BAD BAD BAD BAD BAD BAD BAD BAD BAD BAD BAD BAD BAD BAD BAD BAD")
     else:
         print("lucky")
         NumbersLeft.remove(SelectedNumber)
-        Balance = Balance * MoneyMultiplyer
+        Balance = round(Balance * MoneyMultiplyer)
         GameRound(Balance,MoneyMultiplyer,NumbersLeft,BadNumber)
 
 
