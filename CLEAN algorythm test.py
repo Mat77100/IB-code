@@ -33,20 +33,34 @@ DirtyArr = np.convolve(TrueArr, DirtyBeam, mode="same")
 plt.plot(DirtyArr)
 plt.show()
 
-def CLEAN(ResidualArr, CLEANcomponents):
+def CLEAN(ResidualArr, CLEANcomponents, iteration):
     MaxIndex = ResidualArr.argmax()
-    MaxBrightness = ResidualArr[MaxIndex]
+    MaxBrightness = ResidualArr.max()
     
-    if MaxBrightness < 0.01:
-        return ResidualArr, CLEANcomponents
+    if (MaxBrightness < 0.01) or (iteration == 100):
+        return ResidualArr, CLEANcomponents, iteration
     component = MaxBrightness * 0.1
     CLEANcomponents.append((MaxIndex,component))
 
     ScaledDirtyBeam = DirtyBeam * component
     shift = MaxIndex - np.argmax(DirtyBeam)
     ScaledDirtyBeam = np.roll(ScaledDirtyBeam, shift)
-    
+    '''
     plt.plot(ScaledDirtyBeam)
+    plt.ylim(-1, 1)
     plt.show
+    '''
+    ResidualArr = ResidualArr - ScaledDirtyBeam
 
-CLEAN(DirtyArr,[])
+    '''
+    plt.plot(ResidualArr)
+    plt.ylim(-1, 1)
+    plt.show
+    '''
+    iteration += 1
+    return CLEAN(ResidualArr, CLEANcomponents, iteration)
+
+FinalResidual, FinalCLEANcomp, iteration = CLEAN(DirtyArr,[],0)
+plt.plot(FinalResidual)
+plt.ylim(-1, 1)
+plt.show
