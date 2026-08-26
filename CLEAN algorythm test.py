@@ -78,13 +78,18 @@ plt.show
 
 x = np.arange(N)
 centre = N // 2
-sigma = 2
+sigma = 1
 
 CLEANbeam = np.exp(-((x - centre)**2) / (2 * sigma**2))
 
 RestoredArr = np.convolve(CLEANmap, CLEANbeam, mode="same")
 plt.figure()
 plt.plot(RestoredArr)
-
 plt.show
 
+RestoredArr = RestoredArr + FinalResidual
+
+
+plt.figure()
+plt.plot(RestoredArr)
+plt.show
