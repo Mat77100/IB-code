@@ -33,3 +33,11 @@ DirtyArr = np.convolve(TrueArr, DirtyBeam, mode="same")
 plt.plot(DirtyArr)
 plt.show()
 
+def CLEAN(ResidualArr, CLEANcomponents):
+    MaxIndex = ResidualArr.argmax()
+    MaxBrightness = ResidualArr[MaxIndex]
+    
+    if MaxBrightness < 0.01:
+        return ResidualArr, CLEANcomponents
+    component = DirtyBeam * 0.1
+    
