@@ -90,6 +90,7 @@ plt.show
 RestoredArr = RestoredArr + FinalResidual
 
 
+
 plt.figure()
 plt.plot(RestoredArr)
 plt.show
