@@ -39,10 +39,10 @@ plt.ylim(-1, 1)
 plt.show()
 
 def CLEAN(ResidualArr, CLEANcomponents, iteration):
-    MaxIndex = ResidualArr.argmax()
-    MaxBrightness = ResidualArr.max()
+    MaxIndex = np.argmax(np.abs(ResidualArr))
+    MaxBrightness = ResidualArr[MaxIndex]
     
-    if (MaxBrightness < 0.01) or (iteration == 50):
+    if (abs(MaxBrightness) < 0.01) or (iteration == 2000):
         return ResidualArr, CLEANcomponents, iteration
     
     component = MaxBrightness * 0.1
