@@ -39,5 +39,14 @@ def CLEAN(ResidualArr, CLEANcomponents):
     
     if MaxBrightness < 0.01:
         return ResidualArr, CLEANcomponents
-    component = DirtyBeam * 0.1
+    component = MaxBrightness * 0.1
+    CLEANcomponents.append((MaxIndex,component))
+
+    ScaledDirtyBeam = DirtyBeam * component
+    shift = MaxIndex - np.argmax(DirtyBeam)
+    ScaledDirtyBeam = np.roll(ScaledDirtyBeam, shift)
     
+    plt.plot(ScaledDirtyBeam)
+    plt.show
+
+CLEAN(DirtyArr,[])
