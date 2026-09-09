@@ -3,6 +3,15 @@
 import numpy as np
 import sounddevice as sd
 
-Audio = np.random.uniform(1,-1,44100)
-sd.play(Audio,44100)
-sd.wait
+SampleRate = 44100 
+Duration = 2 #Length of messadge in seconds
+
+Noise = np.random.uniform(-1,1,SampleRate*Duration)
+Noise = np.convolve(Noise, np.ones(25))
+Noise /= 100 #NOISE LOUDNESS
+
+#Crackling, pls improve
+Noise[np.random.randint(0,SampleRate-1)] = 1
+
+sd.play(Noise,SampleRate)
+sd.wait()
