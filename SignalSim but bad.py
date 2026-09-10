@@ -24,7 +24,13 @@ Noise = GenarateNoise(5)
 
 def AlienBeacon(Duration):
     t = np.arange(0,Duration,1/SampleRate)
-    Sound = np.sin(2*np.pi*440*t)
+    #Sound = np.sin(2*np.pi*440*t)  #Sine wave
+    Sound = 2 * (440 *t %1) -1  #Sawtooth wave
+
+    np.random.normal()
+    return Sound
+
+Noise = AlienBeacon(3)
 
 sd.play(Noise,SampleRate)
 sd.wait()
